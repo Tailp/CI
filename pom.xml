@@ -16,6 +16,13 @@
             <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.quicktheories/quicktheories -->
+        <dependency>
+            <groupId>org.quicktheories</groupId>
+            <artifactId>quicktheories</artifactId>
+            <version>0.26</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>maven-unit-test</finalName>
