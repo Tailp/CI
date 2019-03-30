@@ -1,3 +1,3 @@
 # CI
-Jenkins CI test, hallo
+Jenkins CI test
 
