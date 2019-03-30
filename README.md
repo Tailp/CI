@@ -1,3 +1,3 @@
 # CI
-Jenkins CI test, testing
+Jenkins CI test
 
