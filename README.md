@@ -1,4 +1,4 @@
 # CI
-Jenkins CI test asd as
+Jenkins CI test
 
 
