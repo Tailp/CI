@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.trivialTest" time="0.035" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.app.trivialTest" time="0.052" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="sun.desktop" value="gnome"/>
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit"/>
@@ -7,7 +7,7 @@
     <property name="java.specification.version" value="1.8"/>
     <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
-    <property name="java.class.path" value="/home/tailp/myCi/target/test-classes:/home/tailp/myCi/target/classes:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.3.1/junit-jupiter-engine-5.3.1.jar:/home/tailp/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-engine/1.3.1/junit-platform-engine-1.3.1.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-commons/1.3.1/junit-platform-commons-1.3.1.jar:/home/tailp/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.3.1/junit-jupiter-api-5.3.1.jar:/home/tailp/.m2/repository/org/quicktheories/quicktheories/0.26/quicktheories-0.26.jar:"/>
+    <property name="java.class.path" value="/home/tailp/Kuberplay/CI/target/test-classes:/home/tailp/Kuberplay/CI/target/classes:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.3.1/junit-jupiter-engine-5.3.1.jar:/home/tailp/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-engine/1.3.1/junit-platform-engine-1.3.1.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-commons/1.3.1/junit-platform-commons-1.3.1.jar:/home/tailp/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.3.1/junit-jupiter-api-5.3.1.jar:/home/tailp/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/home/tailp/.m2/repository/org/eclipse/jetty/aggregate/jetty-all/7.0.2.v20100331/jetty-all-7.0.2.v20100331.jar:/home/tailp/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/tailp/.m2/repository/javax/mail/mail/1.4/mail-1.4.jar:/home/tailp/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-jaspic_1.0_spec/1.0/geronimo-jaspic_1.0_spec-1.0.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-annotation_1.0_spec/1.1.1/geronimo-annotation_1.0_spec-1.1.1.jar:/home/tailp/.m2/repository/asm/asm-commons/3.1/asm-commons-3.1.jar:/home/tailp/.m2/repository/asm/asm-tree/3.1/asm-tree-3.1.jar:/home/tailp/.m2/repository/asm/asm/3.1/asm-3.1.jar:"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
@@ -17,26 +17,26 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64"/>
-    <property name="sun.java.command" value="/home/tailp/myCi/target/surefire/surefirebooter5303204286825339899.jar /home/tailp/myCi/target/surefire 2019-04-08T02-35-18_663-jvmRun1 surefire3561728530199144416tmp surefire_07886846925769955503tmp"/>
-    <property name="surefire.test.class.path" value="/home/tailp/myCi/target/test-classes:/home/tailp/myCi/target/classes:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.3.1/junit-jupiter-engine-5.3.1.jar:/home/tailp/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-engine/1.3.1/junit-platform-engine-1.3.1.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-commons/1.3.1/junit-platform-commons-1.3.1.jar:/home/tailp/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.3.1/junit-jupiter-api-5.3.1.jar:/home/tailp/.m2/repository/org/quicktheories/quicktheories/0.26/quicktheories-0.26.jar:"/>
+    <property name="sun.java.command" value="/home/tailp/Kuberplay/CI/target/surefire/surefirebooter5540975102795323297.jar /home/tailp/Kuberplay/CI/target/surefire 2019-04-12T00-20-11_613-jvmRun1 surefire4856359499576301620tmp surefire_01146745668211634626tmp"/>
+    <property name="surefire.test.class.path" value="/home/tailp/Kuberplay/CI/target/test-classes:/home/tailp/Kuberplay/CI/target/classes:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.3.1/junit-jupiter-engine-5.3.1.jar:/home/tailp/.m2/repository/org/apiguardian/apiguardian-api/1.0.0/apiguardian-api-1.0.0.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-engine/1.3.1/junit-platform-engine-1.3.1.jar:/home/tailp/.m2/repository/org/junit/platform/junit-platform-commons/1.3.1/junit-platform-commons-1.3.1.jar:/home/tailp/.m2/repository/org/opentest4j/opentest4j/1.1.1/opentest4j-1.1.1.jar:/home/tailp/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.3.1/junit-jupiter-api-5.3.1.jar:/home/tailp/.m2/repository/javax/servlet/javax.servlet-api/3.1.0/javax.servlet-api-3.1.0.jar:/home/tailp/.m2/repository/org/eclipse/jetty/aggregate/jetty-all/7.0.2.v20100331/jetty-all-7.0.2.v20100331.jar:/home/tailp/.m2/repository/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-jta_1.1_spec/1.1.1/geronimo-jta_1.1_spec-1.1.1.jar:/home/tailp/.m2/repository/javax/mail/mail/1.4/mail-1.4.jar:/home/tailp/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-jaspic_1.0_spec/1.0/geronimo-jaspic_1.0_spec-1.0.jar:/home/tailp/.m2/repository/org/apache/geronimo/specs/geronimo-annotation_1.0_spec/1.1.1/geronimo-annotation_1.0_spec-1.1.1.jar:/home/tailp/.m2/repository/asm/asm-commons/3.1/asm-commons-3.1.jar:/home/tailp/.m2/repository/asm/asm-tree/3.1/asm-tree-3.1.jar:/home/tailp/.m2/repository/asm/asm/3.1/asm-3.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="/home/tailp"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="java.home" value="/usr/lib/jvm/java-8-openjdk-amd64/jre"/>
-    <property name="basedir" value="/home/tailp/myCi"/>
+    <property name="basedir" value="/home/tailp/Kuberplay/CI"/>
     <property name="file.separator" value="/"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
-    <property name="surefire.real.class.path" value="/home/tailp/myCi/target/surefire/surefirebooter5303204286825339899.jar"/>
+    <property name="surefire.real.class.path" value="/home/tailp/Kuberplay/CI/target/surefire/surefirebooter5540975102795323297.jar"/>
     <property name="sun.boot.class.path" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/sunrsasign.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/jfr.jar:/usr/lib/jvm/java-8-openjdk-amd64/jre/classes"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="1.8.0_191-8u191-b12-2ubuntu0.18.04.1-b12"/>
     <property name="user.name" value="tailp"/>
     <property name="path.separator" value=":"/>
-    <property name="os.version" value="4.15.0-46-generic"/>
+    <property name="os.version" value="4.15.0-47-generic"/>
     <property name="java.endorsed.dirs" value="/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/endorsed"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
@@ -45,7 +45,7 @@
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="java.io.tmpdir" value="/tmp"/>
     <property name="java.version" value="1.8.0_191"/>
-    <property name="user.dir" value="/home/tailp/myCi"/>
+    <property name="user.dir" value="/home/tailp/Kuberplay/CI"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="52.0"/>
   </properties>
-  <testcase name="dumbTest" classname="com.mycompany.app.trivialTest" time="0.022"/>
+  <testcase name="dumbTest" classname="com.mycompany.app.trivialTest" time="0.036"/>
 </testsuite>

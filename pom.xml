@@ -2,10 +2,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mycompany.app</groupId>
-  <artifactId>my-app</artifactId>
+  <artifactId>CI</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>my-app</name>
+  <name>CI</name>
   <url>http://maven.apache.org</url>
   <properties>
     <dockerfile.version>1.4.1</dockerfile.version>
@@ -20,23 +20,80 @@
             <version>5.3.1</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.quicktheories/quicktheories -->
+        <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+        <!-- http://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
-            <groupId>org.quicktheories</groupId>
-            <artifactId>quicktheories</artifactId>
-            <version>0.26</version>
-            <scope>test</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty.aggregate/jetty-all -->
+        <dependency>
+            <groupId>org.eclipse.jetty.aggregate</groupId>
+            <artifactId>jetty-all</artifactId>
+            <version>7.0.2.v20100331</version>
         </dependency>
     </dependencies>
     <build>
-        <finalName>maven-unit-test</finalName>
+        <finalName>CI</finalName>
         <plugins>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.0</version>
             </plugin>
+            <!-- download source code in Eclipse, best practice -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-eclipse-plugin</artifactId>
+              <version>2.9</version>
+              <configuration>
+                <downloadSources>true</downloadSources>
+                <downloadJavadocs>false</downloadJavadocs>
+              </configuration>
+            </plugin>
+            <!-- Set a compiler level -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.3.2</version>
+              <configuration>
+                <source>${jdk.version}</source>
+                <target>${jdk.version}</target>
+              </configuration>
+            </plugin>
+
+            <!-- Maven Assembly Plugin -->
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-assembly-plugin</artifactId>
+              <version>2.4.1</version>
+              <configuration>
+                <!-- get all project dependencies -->
+                <descriptorRefs>
+                  <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+                <!-- MainClass in mainfest make a executable jar -->
+                <archive>
+                  <manifest>
+                  <mainClass>com.mycompany.app.ContinuousIntegrationServer</mainClass>
+                  </manifest>
+                </archive>
+
+              </configuration>
+              <executions>
+                <execution>
+                <id>assemble-all</id>
+                                              <!-- bind to the packaging phase -->
+                <phase>package</phase> 
+                <goals>
+                  <goal>single</goal>
+                </goals>
+                </execution>
+              </executions>
+            </plugin>
         </plugins>
+        <!-- download source code in Eclipse, best practice -->
+      
     </build>
 </project>

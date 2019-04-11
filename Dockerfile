@@ -21,7 +21,9 @@ COPY settings-docker.xml /usr/share/maven/ref/
 
 COPY . /tmp/myCi
 WORKDIR /tmp/myCi
+
 RUN chmod +x /usr/local/bin/mvn-entrypoint.sh
-RUN mvn -X verify clean --fail-never
+RUN mvn package
+
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
-CMD ["mvn","test"]
+CMD ["java","-jar","target/CI-jar-with-dependencies.jar"]
