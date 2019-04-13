@@ -33,7 +33,7 @@ public class ContinuousIntegrationServer extends AbstractHandler
         // 1st clone your repository
         // 2nd compile the code
         count++;
-        String str = " Test success";
+        String str = " TEST SUCCESS";
         String resp = "Number of customer visited : " + Integer.toString(count);
         if(count > 2){
             resp = resp + str;
