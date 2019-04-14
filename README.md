@@ -11,5 +11,7 @@ To run this repo in Ubuntu -
 
 Then in your browser like Firefox type in http://localhost:8000/ to check that the server is reacting
 
+For those who do not have Maven can still run this with java -jar target/CI-jar-with-dependencies.jar , the jar file is already precompiled in "Target" folder
+
 
 
