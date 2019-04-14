@@ -4,7 +4,7 @@ To run this repo in Ubuntu -
 * mvn package
 * java -jar target/CI-jar-with-dependencies.jar
 
-Then in your browser like firefox type in http://localhost:8000/ to check that the server is reacting
+Then in your browser like Firefox type in http://localhost:8000/ to check that the server is reacting
 
 
 
