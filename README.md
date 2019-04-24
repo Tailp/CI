@@ -121,3 +121,5 @@ Now to begin configuring the plugin on jenkins
 * Also mark the box for "Attach External IP?"
 * At "Boot Disk" section choose image project as your project id(can be found in gcloud init) and image name is the name of the image created like "jenkins-agent-1494277483" should be shown on the list.
 * Disk Type I chose pd-standard since ssd cost more money. Then click "Save" and we are done with the configuration.
+Now we need to create ssh credentials for Jenkins server and upload it to Google cloud Shell. 
+
