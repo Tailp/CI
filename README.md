@@ -58,4 +58,67 @@ There are several ways to do this, but I find this way the easiest.
 * Now click on "Create key" and choose "JSON" format, then create and save it on your workstation. 
 Now we should have a json keyfile for Jenkins to use for deploying and creating K8s slaves.
 
-# Configure and setup Google cloud Engine plugin
+# Configure and setup Google cloud Engine plugin on Jenkins
+Some vital informations about setting up this plugin are [here](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine) 
+We need to create a disk image as template for our slave VM and minimum this image must have java 8 installed. This can be found at this [page](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine), at subsection "Create a jenkins image", but I'll show how I did it anyway.
+* Go to bash terminal and install unpacker 
+  * wget https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip
+  * unzip packer_0.12.3_linux_amd64.zip
+* Find out the project name 
+  * export PROJECT=$(gcloud info --format='value(config.project)')
+* Then run this to create a json configuration file for our image 
+cat > jenkins-agent.json <<EOF
+{
+  "builders": [
+    {
+      "type": "googlecompute",
+      "project_id": "$PROJECT",
+      "source_image_family": "ubuntu-1604-lts",
+      "source_image_project_id": "ubuntu-os-cloud",
+      "zone": "us-central1-a",
+      "disk_size": "10",
+      "image_name": "jenkins-agent-{{timestamp}}",
+      "image_family": "jenkins-agent",
+      "ssh_username": "ubuntu"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["sudo apt-get update",
+                  "sudo apt-get install -y default-jdk"]
+    }
+  ]
+}
+EOF
+* Finally ./packer build jenkins-agent.json
+This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483"
+
+Now to begin configuring the plugin on jenkins
+* login to http://localhost:8080/
+* Go to "Manage Jenkins"
+* Go to "Configure System"
+* Scroll down all the way to the bottom and click on "Add a new cloud", then choose Google Compute Engine
+* On the Name I wrote "gce", but it can be whatever you like.
+* On Project ID , you can find it by for instance "gcloud init" in bash terminal, then look for your project id you have set for your current logged-in account 
+* On Instance Cap you set how many slaves Jenkins can create maximum on GKE. For this I chose 1 just for demonstration purpose.
+* Service Account Credentials , choose "Add" then "Jenkins" and then At "Kind" look for Google Service Account from private key
+  * Project Name can be what ever you like (I chose "jenkins-gcekey")
+  * Choose JSON key then browse for the .json file we got from the previous section we downloaded when the service account was created. 
+  * Click Add at the bottom
+  * Now we are back at "Service Account Credentials" again click on the radio button left to "Add" and look for the Project Name you just used to load the crediential .json. It should says after clicking somewhere else "The credential successfully made an API request to Google Compute Engine" right below the "Add" button.
+* At instance configuration Click add and now there are more to configure
+* At Name Prefix choose whatever you like(it's the name prefix of the VM created on K8s), I call my gceslave0
+* Description can also be whatever you like
+* Launch TimeOut is the time before the slave should be automatically be deleted and it's in seconds. I chose 60 seconds.
+* Node Retention time and Usage should be left as it is
+* Labels , this is used for the descriptive pipeline when we call our agents so name it something good. I call my "gceslave0"
+* Now other things should be left as they are. Instead look for "Location" Region set your project region(preferable the same as when you set up with gcloud init, my was 23 so it should be europe-west2) and Zone (23 also means europe-west2-c for my zone).
+* Ignore "Template to use" and click on Advanced
+* Machine Type , I chose n1-standard-1
+* Minimum Cpu Plattform , Intel Skylake
+* As for "Networking" choose default for both network and Subnetwork
+* Also mark the box for "Attach External IP?"
+* At "Boot Disk" section choose image project as your project id(can be found in gcloud init) and image name is the name of the image created like "jenkins-agent-1494277483" should be shown on the list.
+* Disk Type I chose pd-standard since ssd cost more money.
+And we are done configuring .
