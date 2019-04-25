@@ -121,5 +121,10 @@ Now to begin configuring the plugin on jenkins
 * Also mark the box for "Attach External IP?"
 * At "Boot Disk" section choose image project as your project id(can be found in gcloud init) and image name is the name of the image created like "jenkins-agent-1494277483" should be shown on the list.
 * Disk Type I chose pd-standard since ssd cost more money. Then click "Save" and we are done with the configuration.
-Now we need to create ssh credentials for Jenkins server and upload it to Google cloud Shell. 
+Now this should be working and we can check that by 
+* From Jenkins dashboard go to "Manage Jenkins" 
+* Then scroll down and click on "Manage nodes" 
+* Then you should see a radio button "Provision via gce" click on that and you should see your description which you have written previously during the configuration. 
+* Click on that and it should take you to a new page(page for the slave instance), check on the left and click on "Log" to see the setup procedure for the node. If the logs will ends after with "Agent successfully connected and online". Don't worry if you see something like "Failed to connect via ssh..", because it takes sometime before the VM on GCE to be completely set up and after some tries it should say "connected via SSH".
+Now we can write a pipeline script for running stuffs at the slave.
 
