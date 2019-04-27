@@ -129,40 +129,60 @@ Now this should be working and we can check that by
 * Then scroll down and click on "Manage nodes" 
 * Then you should see a radio button "Provision via gce" click on that and you should see your description which you have written previously during the configuration. 
 * Click on that and it should take you to a new page(page for the slave instance), check on the left and click on "Log" to see the setup procedure for the node. If the logs will ends after with "Agent successfully connected and online". Don't worry if you see something like "Failed to connect via ssh..", because it takes sometime before the VM on GCE to be completely set up and after some tries it should say "connected via SSH".
+
 Now we can write a pipeline script for running stuffs at the slave.
 # Monitoring setup (Prometheus & Grafana)
 ## Setup Prometheus
 Note that this is a full proper setup for Prometheus on Ubuntu, so we are not satisfied with only getting it to run.
 
 First we need to create usergroup so that we can use systemctl later for Prometheus to run in the background. 
+
 * sudo useradd --no-create-home --shell /bin/false prometheus
+
 Then we need to prepare 2 directories to store the files, which will be extracted from the .tar package download from Prometheus repo. Also we need to 
+
 * sudo mkdir /etc/prometheus
 * sudo mkdir /var/lib/prometheus
+
 Also assign user to use these directories as prometheus user, which we already created in the first step.
+
 * sudo mkdir /etc/prometheus
 * sudo mkdir /var/lib/prometheus
+
 Download .tar package and unpackage it.
+
 * cd ~
 * curl -LO https://github.com/prometheus/prometheus/releases/download/v2.0.0/prometheus-2.0.0.linux-amd64.tar.gz
 * tar xvf prometheus-2.0.0.linux-amd64.tar.gz
+
 Then copy the tool binary files and console library directories to the following directories
+
 * sudo cp prometheus-2.0.0.linux-amd64/prometheus /usr/local/bin/
 * sudo cp prometheus-2.0.0.linux-amd64/promtool /usr/local/bin/
 * sudo cp -r prometheus-2.0.0.linux-amd64/consoles /etc/prometheus
 * sudo cp -r prometheus-2.0.0.linux-amd64/console_libraries /etc/prometheus
+
 Also set user ownership of these four as prometheus
+
 * sudo chown prometheus:prometheus /usr/local/bin/prometheus
 * sudo chown prometheus:prometheus /usr/local/bin/promtool
 * sudo chown -R prometheus:prometheus /etc/prometheus/consoles
 * sudo chown -R prometheus:prometheus /etc/prometheus/console_libraries
+
 Now we have move all of the neccessary files for prometheus and now we only need to configure the prometheus.yml to initialize our scrape server. The file can be found in this repo so you can download it from here. Also we need to clean up the .tar and the unpacked directory, since we don't need it anymore.
+
 * rm -rf prometheus-2.0.0.linux-amd64.tar.gz prometheus-2.0.0.linux-amd64
+
 After downloading put the prometheus.yml into this directory /etc/prometheus/ . Alternatively you can manually write it
+
 * sudo nano /etc/prometheus/prometheus.yml
+
 Then copy and paste the content in prometheus.yml in this repo. Then again set user ownership of this yaml file as prometheus
+
 * sudo chown prometheus:prometheus /etc/prometheus/prometheus.yml
+
 Now we can initialize and run the server with the command below.
+
 * sudo -u prometheus /usr/local/bin/prometheus \
     --config.file /etc/prometheus/prometheus.yml \
     --storage.tsdb.path /var/lib/prometheus/ \
