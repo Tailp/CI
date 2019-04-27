@@ -168,34 +168,56 @@ Now we can initialize and run the server with the command below.
     --storage.tsdb.path /var/lib/prometheus/ \
     --web.console.templates=/etc/prometheus/consoles \
     --web.console.libraries=/etc/prometheus/console_libraries
+
 It should display at the end as 'level=info ts=2017-11-17T18:37:27.53890004Z caller=main.go:371 msg="Server is ready to receive requests."' or something like that. Now instead of just have the server occupy one of our terminal we can make so that it runs in the background. Exit with Ctr+c then put the file prometheus.service in this repo in the directory /etc/systemd/system/, or alternatively manually write it
+
 * sudo nano /etc/systemd/system/prometheus.service
+
 then copy paste the content from prometheus.service. Reload service files for the os system
+
 * sudo systemctl daemon-reload
+
 Now we can run it in the background by.
+
 * sudo systemctl start prometheus
+
 Status check to make sure that everything work. It should say that the server is active and running.
+
 * sudo systemctl status prometheus
+
 If you want prometheus to auto start on boot 
+
 * sudo systemctl enable prometheus
+
 Now you can visit your prometheus server at http://localhost:9090/ , note that port 9090 is because we specified it in the prometheus.yml file (see job_name: 'prometheus' in the file).
+
 Next is to make the prometheus server to scrape data from the jenkins server. First is to add a new job in the prometheus.yml file, which it's actually already done as you can see in the same file we copied (see job_name: 'jenkins' in the prometheus.yml file). As specified in the file, Prometheus will automatically scrape data at the address "localhost:8080/prometheus", but before that happens we need to install the Prometheus plugin in our Jenkins server. 
+
 * Go to "Manage Jenkins" from Jenkins dashboard -> "Manage Plugins" -> click on "Available" tab then search for "Prometheus metrics plugin" and install that. 
 After installing this, visit http://localhost:9090/ then right beside the "Execute" button click on the radio button and choose something like "jenkins_runs_total_total" for displaying the total jenkins job run, then go back to jenkins and start one build one any pipeline you have. The number should then increase by one when you update the Prometheus server page.
 ## Setup Grafana
 The installation is taken straight from [here](https://grafana.com/docs/installation/debian/)
+
 * curl https://packages.grafana.com/gpg.key | sudo apt-key add -
 * sudo apt-get update
 * sudo apt-get install grafana
+
 When this is done we can start the server by 
+
 * systemctl start grafana-server
+
 Then check status of the server, which should be active.
+
 * systemctl status grafana-server
+
 Now visit this server at http://localhost:3000/ then for first time login user: admin and password: admin . Then the server will request you to input a new password for future login. 
+
 * On the dashboard page, look at the left and look for "Configuration"(look like a wheel), then click on "Data Sources"
 * Now click on "Add data sources" and look for "Prometheus" then choose that.
 * On the config page, "Name" should already be set as "Prometheus". "Url" should be "http://localhost:9090" and for "Access" choose "Browser". Then click Save and it should display "Data source is working"
+
 Now look at the right again and find "Dashboards" and click on "Manage"
+
 * On the "Manage" page click on "New Dashboard" and there should be already be a panel ready for you.
 * On the panel click add query then write "jenkins_runs_total_total".
 * After that go to "Visualization" and change radio button "Graph" to "Single stat" then on the "Value" section right below choose for "Stat" as "Current" instead of "Average". Then click at the top of the page "Save" to save the dashboard. 
