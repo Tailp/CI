@@ -50,6 +50,12 @@ If you can't find them, then they might be already installed( can find and check
 * echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 * curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 * sudo apt-get update && sudo apt-get install google-cloud-sdk
+
+Or alternatively, this may work better for some by installing gcloud this way
+
+* sudo apt-get install snapd
+* sudo snap install google-cloud-sdk --classic
+
 You can then setup your account with the command "gcloud init" then choose/create your project and also choose region(I chose 23 europe-west-2c, which is in London)
 
 ## Create a service account for Jenkins 
@@ -242,5 +248,30 @@ Now look at the right again and find "Dashboards" and click on "Manage"
 * On the panel click add query then write "jenkins_runs_total_total".
 * After that go to "Visualization" and change radio button "Graph" to "Single stat" then on the "Value" section right below choose for "Stat" as "Current" instead of "Average". Then click at the top of the page "Save" to save the dashboard. 
 You should now see the same number as the number you saw back at Prometheus server page.
-# CI part (Maven & Github)
-# CD part (Gcloud builder & Gcloud registry)
+# tools for the CI part (Maven & Github)
+For the CI part we use ngrok to expose our Jenkins local server. How to install ngrok [please look here](https://ngrok.com/download)
+* On Ubuntu 18.04 expose port by "./ngrok http 8080" after the installation assuming that the Jenkins port is at port 8080 by default
+As for Maven installation is quite straight forward at this [link](https://maven.apache.org/download.cgi). Junit test suite is already included as a dependency in the pom file for this repo.
+
+# tools for the CD part (Gcloud local builder & Gcloud registry)
+Assuming that you have already installed Google Cloud SDK in the previous sections, here we will install a tool component call Google cloud local builder. Open bash terminal then 
+
+* gcloud components install cloud-build-local
+
+After the installation is done you can go ahead and visit [Gcloud registry](https://cloud.google.com/container-registry/) and click on view console if you have already logged into your Google account. Then enable the GCR(Google Cloud Registry) if you have not enable it yet. It's required to use GCR in order to deploy with Kubernetes. To build and push into GCR using Gcloud local builder the syntax is 
+
+* "gcloud builds submit --tag gcr.io/${projectname}/${registryreponame:version} ."
+
+${projectname} is your ProjectID and it can be checked with "gcloud init" command in bash shell. ${registryreponame:version} can be whatever you think appropriate. For instance it can be gcr.io/project-1234/appdeploy:v1  . Do note that the dot at the end is not a typo(the syntax look almost the same as docker push). If the push is successful, you'll see it at [Gcloud registry](https://cloud.google.com/container-registry/) (you might need to switch project to the projectid you have pushed to).
+
+## Jenkins declarative pipeline for auto pushing and deploy 
+To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which is usually located in /home/${user}/google-cloud-sdk/bin , otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
+
+* withEnv(['GCLOUD_PATH=/home/${user}/google-cloud-sdk/bin']) {....}
+* in the {....} write "$GCLOUD_PATH/gcloud auth activate service-account --key-file=PATH_TO_JSONFILE"
+* then new line "$GCLOUD_PATH/gcloud container clusters get-credentials ${name_of_yourcluster} --zone ${your_zone} --project ${your_project_id}" 
+* new line again "$GCLOUD_PATH/gcloud config set project ${your_project_id}" 
+Zone and project id can be found with "gcloud init" while cluster with "gcloud container clusters list" and look for your cluster which you want to deploy to. Now we can push using gcloud and use kubectl to deploy as shell commands with Jenkins like how we do it manually on the terminal. Also the Jenkinsfile for my pipeline is provided in this repo. You can doublecheck these steps with it. 
+
+
+
