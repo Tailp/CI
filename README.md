@@ -271,6 +271,7 @@ To be able to run kubectl and gcloud shell command in Jenkinsfile for declarativ
 * in the {....} write "$GCLOUD_PATH/gcloud auth activate service-account --key-file=PATH_TO_JSONFILE"
 * then new line "$GCLOUD_PATH/gcloud container clusters get-credentials ${name_of_yourcluster} --zone ${your_zone} --project ${your_project_id}" 
 * new line again "$GCLOUD_PATH/gcloud config set project ${your_project_id}" 
+
 Zone and project id can be found with "gcloud init" while cluster with "gcloud container clusters list" and look for your cluster which you want to deploy to. Now we can push using gcloud and use kubectl to deploy as shell commands with Jenkins like how we do it manually on the terminal. Also the Jenkinsfile for my pipeline is provided in this repo. You can doublecheck these steps with it. 
 
 
