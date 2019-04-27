@@ -130,4 +130,9 @@ Now this should be working and we can check that by
 * Then you should see a radio button "Provision via gce" click on that and you should see your description which you have written previously during the configuration. 
 * Click on that and it should take you to a new page(page for the slave instance), check on the left and click on "Log" to see the setup procedure for the node. If the logs will ends after with "Agent successfully connected and online". Don't worry if you see something like "Failed to connect via ssh..", because it takes sometime before the VM on GCE to be completely set up and after some tries it should say "connected via SSH".
 Now we can write a pipeline script for running stuffs at the slave.
+# Monitoring setup (Prometheus & Grafana)
+## Setup Prometheus
+## Setup Grafana
 
+# CI part (Maven & Github)
+# CD part (Gcloud builder & Gcloud registry)
