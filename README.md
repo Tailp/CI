@@ -1,13 +1,13 @@
-## Introduction
+# Introduction
 This is contain a small server, which act as our application for deployment given in this [repo](https://github.com/KTH-DD2480/smallest-java-ci). 
 
-## Test application
+# Test application
 
-# Dependencies to install
+## Dependencies to install
 * Maven 4.0.0
 * Java jre 8
 
-# How to run the test app
+## How to run the test app
 To run this repo in Ubuntu -
 * mvn package
 * java -jar target/CI-jar-with-dependencies.jar
@@ -16,9 +16,9 @@ Then in your browser like Firefox type in http://localhost:8000/ to check that t
 
 For those who do not have Maven can still run this with java -jar target/CI-jar-with-dependencies.jar , the jar file is already precompiled in "target" folder
 
-## Setup CI/CD pipeline instructions
+# Setup CI/CD pipeline instructions
 These setup instructions should work for Ubuntu 18.04
-# Install Jenkins 
+## Install Jenkins 
 To run Jenkins we need java 8 so it must be installed first
 * sudo apt update
 * sudo apt install openjdk-8-jdk
@@ -33,8 +33,8 @@ Jenkins server should be active by now. By default the server should be at local
 * sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 Then choose "Install suggested plugins" and you should get a basic working Jenkins server.
 
-## Set up Kubernetes dynamic slaves
-# Plugins for Jenkins to install
+# Set up Kubernetes dynamic slaves
+## Plugins for Jenkins to install
 * login to http://localhost:8080/
 * Go to "Manage Jenkins"
 * Scroll down and click on "Manage Plugins"
@@ -44,7 +44,7 @@ Then choose "Install suggested plugins" and you should get a basic working Jenki
   * Google Metadata plugin
   * Google OAuth Credentials plugin
 If you can't find them, then they might be already installed( can find and check in Installed if they are already there)
-# Install Google Cloud SDK
+## Install Google Cloud SDK
 [Source](https://cloud.google.com/sdk/docs/downloads-apt-get) This is for Ubuntu 18.04
 * export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 * echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -52,7 +52,7 @@ If you can't find them, then they might be already installed( can find and check
 * sudo apt-get update && sudo apt-get install google-cloud-sdk
 You can then setup your account with the command "gcloud init" then choose/create your project and also choose region(I chose 23 europe-west-2c, which is in London)
 
-# Create a service account for Jenkins 
+## Create a service account for Jenkins 
 There are several ways to do this, but I find this way the easiest. 
 * Go to [Google cloud console platform](https://console.cloud.google.com/?hl=sv)
 * Then on the top left of the screen click on the ≡ mark and point at "IAM & admin" on the list. This will show another list and on that list you will click on "Service accounts"
@@ -61,7 +61,7 @@ There are several ways to do this, but I find this way the easiest.
 * Now click on "Create key" and choose "JSON" format, then create and save it on your workstation. 
 Now we should have a json keyfile for Jenkins to use for deploying and creating K8s slaves.
 
-# Configure and setup Google cloud Engine plugin on Jenkins
+## Configure and setup Google cloud Engine plugin on Jenkins
 Some vital informations about setting up this plugin are [here](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine) 
 We need to create a disk image as template for our slave VM and minimum this image must have java 8 installed. This can be found at this [page](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine), at subsection "Create a jenkins image", but I'll show how I did it anyway.
 * Go to bash terminal and install unpacker 
