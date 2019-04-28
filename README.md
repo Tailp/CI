@@ -262,7 +262,7 @@ Now look at the right again and find "Dashboards" and click on "Manage"
 * On the panel click add query then write "jenkins_runs_total_total".
 * After that go to "Visualization" and change radio button "Graph" to "Single stat" then on the "Value" section right below choose for "Stat" as "Current" instead of "Average". Then click at the top of the page "Save" to save the dashboard. 
 You should now see the same number as the number you saw back at Prometheus server page.
-# Tools for the CI part (Maven & Github)
+# Maven & Github
 For the CI part we use ngrok to expose our Jenkins local server. How to install ngrok [please look here](https://ngrok.com/download)
 
 * On Ubuntu 18.04 expose port by "./ngrok http 8080" after the installation assuming that the Jenkins port is at port 8080 by default
@@ -275,7 +275,7 @@ To use the jenkinsfile maven tool you need to do the below otherwise you'll get 
 * Then go to "Global Tool Configurations"
 * Scroll down to section "Maven" then click on "Add Maven" and just name it Maven then we're done.
 
-# Tools for the CD part (Gcloud local builder & Gcloud registry)
+# Gcloud local builder & Gcloud registry
 Assuming that you have already installed Google Cloud SDK in the previous sections, here we will install a tool component call Google cloud local builder. Open bash terminal then 
 
 * sudo apt-get install google-cloud-sdk-cloud-build-local 
@@ -294,7 +294,7 @@ Also to deploy to our cluster we need to install kubectl
 
 There is also another way to install this as a gcloud component "gcloud component install kubectl"
 
-## Jenkins declarative pipeline for auto pushing and deploying 
+## Jenkins declarative pipeline: Easy way to deploy to K8s cluster as Jenkins master
 IMPORTANT!!! the Jenkinsfile for my pipeline is provided in this repo. You can doublecheck these steps with it. Also to use the jenkinsfile you need to create a cluster with 2 nodes, so for instance "gcloud container clusters create myci --num-nodes=2" which create a cluster with clustername myci and 2 nodes.
 
 To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which can be found by the command below if you installed google-cloud-sdk according to instructions above, otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
