@@ -110,7 +110,8 @@ Then Login with default credentials first before building and pushing image
 * gcloud auth application-default login
 
 * Finally ./packer build jenkins-agent.json
-This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483"
+
+This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483" . Also this might fails on first try so try again if that happens.
 
 Now to begin configuring the plugin on jenkins
 * login to http://localhost:8080/
