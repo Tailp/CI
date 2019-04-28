@@ -250,7 +250,9 @@ Now look at the right again and find "Dashboards" and click on "Manage"
 You should now see the same number as the number you saw back at Prometheus server page.
 # tools for the CI part (Maven & Github)
 For the CI part we use ngrok to expose our Jenkins local server. How to install ngrok [please look here](https://ngrok.com/download)
+
 * On Ubuntu 18.04 expose port by "./ngrok http 8080" after the installation assuming that the Jenkins port is at port 8080 by default
+
 As for Maven installation is quite straight forward at this [link](https://maven.apache.org/download.cgi). Junit test suite is already included as a dependency in the pom file for this repo.
 
 # tools for the CD part (Gcloud local builder & Gcloud registry)
