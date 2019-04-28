@@ -72,7 +72,7 @@ Now we should have a json keyfile for Jenkins to use for deploying and creating 
 
 ## Configure and setup Google cloud Engine plugin on Jenkins
 Some vital informations about setting up this plugin are [here](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine) 
-We need to create a disk image as template for our slave VM and minimum this image must have java 8 installed. This can be found at this [page](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine), at subsection "Create a jenkins image", but I'll show how I did it anyway.
+We need to create a disk image as template for our slave VM and minimum this image must have java 8 installed. This can be found at this [page](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine), at subsection "Create a jenkins image". Here for this repo I wanted to build a slave image with java 8 and Maven installed and you can see that in the "provisioners" section in the jenkins-agent.json yaml file. 
 
 * Go to bash terminal and install unpacker 
   * wget https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip
@@ -113,6 +113,8 @@ Then Login with default credentials first before building and pushing image
 * Finally ./packer build jenkins-agent.json
 
 This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483" . Also this might fails on first try so try again if that happens. You can check for your image at [Google cloud console platform](https://console.cloud.google.com/?hl=sv) then on the navigation menu on the left point on "Compute Engine" then choose images. You should see your "jenkins-agent-1494277483" or something like that there.
+
+Note: If you want you jenkins slave to be able to run more feature either add more bash Ubuntu shell commands in the "inline" (just like how you normally install as a user) or you can also SSH into the jenkins slave Virtual Machine and install, then you also need save the VM configurations as an image.
 
 Now to begin configuring the plugin on jenkins
 
