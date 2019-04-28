@@ -103,6 +103,10 @@ cat > jenkins-agent.json <<EOF
   ]
 }
 EOF
+Then Login with default credentials first before building and pushing image
+
+* gcloud auth application-default login
+
 * Finally ./packer build jenkins-agent.json
 This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483"
 
