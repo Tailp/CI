@@ -20,17 +20,25 @@ For those who do not have Maven can still run this with java -jar target/CI-jar-
 These setup instructions should work for Ubuntu 18.04
 ## Install Jenkins 
 To run Jenkins we need java 8 so it must be installed first
+
 * sudo apt update
 * sudo apt install openjdk-8-jdk
+
 Then we need to add a GPG key of the Jenkins repo and then apt install it
+
 * wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
 * sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 * sudo apt update
 * sudo apt install jenkins
+
 Double check with
+
 * systemctl status jenkins
+
 Jenkins server should be active by now. By default the server should be at local port 8080, so in your browser connect to http://localhost:8080/ . On that page Jenkins server will then demand the password from you and it will also tell you where the password file is in your system. My password file is at /var/lib/jenkins/secrets/initialAdminPassword, so
+
 * sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
 Then choose "Install suggested plugins" and you should get a basic working Jenkins server.
 
 # Set up Kubernetes dynamic slaves
