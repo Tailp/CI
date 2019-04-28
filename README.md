@@ -111,7 +111,7 @@ Then Login with default credentials first before building and pushing image
 
 * Finally ./packer build jenkins-agent.json
 
-This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483" . Also this might fails on first try so try again if that happens.
+This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483" . Also this might fails on first try so try again if that happens. You can check for your image at [Google cloud console platform](https://console.cloud.google.com/?hl=sv) then on the navigation menu on the left point on "Compute Engine" then choose images. You should see your "jenkins-agent-1494277483" or something like that there.
 
 Now to begin configuring the plugin on jenkins
 * login to http://localhost:8080/
