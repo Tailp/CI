@@ -73,6 +73,7 @@ Now we should have a json keyfile for Jenkins to use for deploying and creating 
 ## Configure and setup Google cloud Engine plugin on Jenkins
 Some vital informations about setting up this plugin are [here](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine) 
 We need to create a disk image as template for our slave VM and minimum this image must have java 8 installed. This can be found at this [page](https://cloud.google.com/solutions/using-jenkins-for-distributed-builds-on-compute-engine), at subsection "Create a jenkins image", but I'll show how I did it anyway.
+
 * Go to bash terminal and install unpacker 
   * wget https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip
   * unzip packer_0.12.3_linux_amd64.zip
@@ -114,6 +115,7 @@ Then Login with default credentials first before building and pushing image
 This should show the image name created like this "googlecompute: A disk image was created: jenkins-agent-1494277483" . Also this might fails on first try so try again if that happens. You can check for your image at [Google cloud console platform](https://console.cloud.google.com/?hl=sv) then on the navigation menu on the left point on "Compute Engine" then choose images. You should see your "jenkins-agent-1494277483" or something like that there.
 
 Now to begin configuring the plugin on jenkins
+
 * login to http://localhost:8080/
 * Go to "Manage Jenkins"
 * Go to "Configure System"
