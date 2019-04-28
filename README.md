@@ -52,7 +52,7 @@ Then choose "Install suggested plugins" and you should get a basic working Jenki
   * Google Metadata plugin
   * Google OAuth Credentials plugin
 If you can't find them, then they might be already installed( can find and check in Installed if they are already there)
-## Install Google Cloud SDK and kubectl
+## Install Google Cloud SDK
 [Source](https://cloud.google.com/sdk/docs/downloads-apt-get) This is for Ubuntu 18.04
 * export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 * echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -60,12 +60,6 @@ If you can't find them, then they might be already installed( can find and check
 * sudo apt-get update && sudo apt-get install google-cloud-sdk
 
 You can then setup your account with the command "gcloud init" then choose/create your project and also choose region(I chose 23 europe-west-2c, which is in London)
-
-Then we also need to install kubectl to enable deployment to k8s clusters
-
-* sudo apt-get install kubectl
-
-There is also another way to install this as a gcloud component "gcloud component install kubectl"
 
 ## Create a service account for Jenkins 
 There are several ways to do this, but I find this way the easiest. 
@@ -292,16 +286,40 @@ After the installation is done you can go ahead and visit [Gcloud registry](http
 
 ${projectname} is your ProjectID and it can be checked with "gcloud init" command in bash shell. ${registryreponame:version} can be whatever you think appropriate. For instance it can be "gcr.io/project-1234/appdeploy:v1"  . Do note that the dot at the end is not a typo(the syntax look almost the same as docker push). If the push is successful, you'll see it at [Gcloud registry](https://cloud.google.com/container-registry/) (you might need to switch project to the projectid you have pushed to).
 
+Also to deploy to our cluster we need to install kubectl 
+
+* sudo apt-get install kubectl
+
+There is also another way to install this as a gcloud component "gcloud component install kubectl"
+
 ## Jenkins declarative pipeline for auto pushing and deploying 
+IMPORTANT!!! the Jenkinsfile for my pipeline is provided in this repo. You can doublecheck these steps with it. 
+
 To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which can be found by the command below if you installed google-cloud-sdk according to instructions above, otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
+
 * gcloud info --format="value(installation.sdk_root)"   //Find out where gcloud is, like "/usr/lib/google-cloud-sdk" .
-* dpkg -L kubectl //Find out where kubectl is .
-* withEnv(['GCLOUD_PATH=/usr/lib/google-cloud-sdk/bin']) {....}
-* in the {....} write "$GCLOUD_PATH/gcloud auth activate service-account --key-file=PATH_TO_JSONFILE"
-* then new line "$GCLOUD_PATH/gcloud container clusters get-credentials ${name_of_yourcluster} --zone ${your_zone} --project ${your_project_id}" 
-* new line again "$GCLOUD_PATH/gcloud config set project ${your_project_id}" 
 
-Zone and project id can be found with "gcloud init" while cluster with "gcloud container clusters list" assuming that you created your cluster with "gcloud container clusters create --num-nodes= " and look for your cluster which you want to deploy to. Now we can push using gcloud and use kubectl to deploy as shell commands with Jenkins like how we do it manually on the terminal. Also the Jenkinsfile for my pipeline is provided in this repo. You can doublecheck these steps with it. 
+Then you can construct a stage with these shell commands
+```
+withEnv(['GCLOUD_PATH=/usr/lib/google-cloud-sdk/bin']) {
+  sh '$GCLOUD_PATH/gcloud auth activate-service-account --key-file=/home/tailp/jenkinscrt/Jsonkeyfile.json'
+  sh '$GCLOUD_PATH/gcloud container clusters get-credentials ClusterName --zone europe-west2-c --project ProjectID'
+  sh '$GCLOUD_PATH/gcloud config set project ProjectID'
+  sh '$GCLOUD_PATH/gcloud builds submit --tag gcr.io/ProjectID/m-ci:latest .'
+}
+```
 
+Zone and project id can be found with "gcloud init" while cluster with "gcloud container clusters list" assuming that you created your cluster with "gcloud container clusters create --num-nodes= " and look for your cluster which you want to deploy to. Now we can push using gcloud and use kubectl to deploy as shell commands with Jenkins like how we do it manually on the terminal.
+
+After running those shell commands above, we can now deploy with kubectl shell commands. So the same as gcloud we need to find the path to kubectl first then put the path into the variable KUBECTL_PATH
+
+* dpkg -L kubectl //Find out where kubectl is for.
+
+```
+withEnv(['KUBECTL_PATH=/usr/bin']) {
+  sh '$KUBECTL_PATH/kubectl run mci --image=gcr.io/ProjectID/m-ci:latest --port 8080'
+  sh '$KUBECTL_PATH/kubectl expose deployment mci --type=LoadBalancer --port 8000 --target-port 8000'
+}
+```
 
 
