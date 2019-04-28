@@ -52,7 +52,7 @@ Then choose "Install suggested plugins" and you should get a basic working Jenki
   * Google Metadata plugin
   * Google OAuth Credentials plugin
 If you can't find them, then they might be already installed( can find and check in Installed if they are already there)
-## Install Google Cloud SDK
+## Install Google Cloud SDK and kubectl
 [Source](https://cloud.google.com/sdk/docs/downloads-apt-get) This is for Ubuntu 18.04
 * export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
 * echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -60,6 +60,12 @@ If you can't find them, then they might be already installed( can find and check
 * sudo apt-get update && sudo apt-get install google-cloud-sdk
 
 You can then setup your account with the command "gcloud init" then choose/create your project and also choose region(I chose 23 europe-west-2c, which is in London)
+
+Then we also need to install kubectl to enable deployment to k8s clusters
+
+* sudo apt-get install kubectl
+
+There is also another way to install this as a gcloud component "gcloud component install kubectl"
 
 ## Create a service account for Jenkins 
 There are several ways to do this, but I find this way the easiest. 
@@ -270,7 +276,9 @@ As for Maven installation is quite straight forward at this [link](https://maven
 # Tools for the CD part (Gcloud local builder & Gcloud registry)
 Assuming that you have already installed Google Cloud SDK in the previous sections, here we will install a tool component call Google cloud local builder. Open bash terminal then 
 
-* gcloud components install cloud-build-local
+* sudo apt-get install google-cloud-sdk-cloud-build-local 
+
+Note that there is also another way to install it "gcloud components install cloud-build-local".
 
 After the installation is done you can go ahead and visit [Gcloud registry](https://cloud.google.com/container-registry/) and click on view console if you have already logged into your Google account. Then enable the GCR(Google Cloud Registry) if you have not enable it yet. It's required to use GCR in order to deploy with Kubernetes. To build and push into GCR using Gcloud local builder the syntax is 
 
