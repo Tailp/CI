@@ -25,7 +25,7 @@ There are 2 tutorial videos for this readme
 
 [K8s on-demand slave tutorial youtube link](https://www.youtube.com/watch?v=LeLxMfYsqa8&t=30s)
 
-[Deploying as Jenkins master](https://www.youtube.com/watch?v=XswaeGfCBvw)
+[Deploying as Jenkins master youtube link](https://www.youtube.com/watch?v=XswaeGfCBvw)
 
 The first link cover section "Set up Kubernetes dynamic slaves" and all its subsections 
 
