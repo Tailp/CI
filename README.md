@@ -273,6 +273,12 @@ For the CI part we use ngrok to expose our Jenkins local server. How to install 
 
 As for Maven installation is quite straight forward at this [link](https://maven.apache.org/download.cgi). Junit test suite is already included as a dependency in the pom file for this repo.
 
+To use the jenkinsfile maven tool you need to do the below otherwise you'll get an error for the part tools{maven 'Maven'} in the jenkinsfile .
+
+* Go to "Manage Jenkins"
+* Then go to "Global Tool Configurations"
+* Scroll down to section "Maven" then click on "Add Maven" and just name it Maven then we're done.
+
 # Tools for the CD part (Gcloud local builder & Gcloud registry)
 Assuming that you have already installed Google Cloud SDK in the previous sections, here we will install a tool component call Google cloud local builder. Open bash terminal then 
 
