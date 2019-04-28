@@ -18,6 +18,19 @@ For those who do not have Maven can still run this with java -jar target/CI-jar-
 
 # Setup CI/CD pipeline instructions
 These setup instructions should work for Ubuntu 18.04
+
+IMPORTANT!!! 
+
+There are 2 tutorial videos for this readme 
+
+[K8s on-demand slave tutorial youtube link](https://www.youtube.com/watch?v=LeLxMfYsqa8&t=30s)
+
+[Deploying as Jenkins master](https://www.youtube.com/watch?v=XswaeGfCBvw)
+
+The first link cover section "Set up Kubernetes dynamic slaves" and all its subsections 
+
+The second link cover section "Maven & Github" and section "Gcloud local builder & Gcloud registry"  and all their subsections
+
 ## Install Jenkins 
 To run Jenkins we need java 8 so it must be installed first
 
