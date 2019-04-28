@@ -288,7 +288,8 @@ ${projectname} is your ProjectID and it can be checked with "gcloud init" comman
 
 ## Jenkins declarative pipeline for auto pushing and deploying 
 To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which can be found by the command below if you installed google-cloud-sdk according to instructions above, otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
-* gcloud info --format="value(installation.sdk_root)"   //Find out GCLOUD_PATH, possibly looks like "/usr/lib/google-cloud-sdk"
+* gcloud info --format="value(installation.sdk_root)"   //Find out where gcloud is, like "/usr/lib/google-cloud-sdk" .
+* dpkg -L kubectl //Find out where kubectl is .
 * withEnv(['GCLOUD_PATH=/usr/lib/google-cloud-sdk/bin']) {....}
 * in the {....} write "$GCLOUD_PATH/gcloud auth activate service-account --key-file=PATH_TO_JSONFILE"
 * then new line "$GCLOUD_PATH/gcloud container clusters get-credentials ${name_of_yourcluster} --zone ${your_zone} --project ${your_project_id}" 
