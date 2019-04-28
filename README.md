@@ -79,15 +79,16 @@ We need to create a disk image as template for our slave VM and minimum this ima
 * Find out the project name 
   * export PROJECT=$(gcloud info --format='value(config.project)')
 * Then run this to create a json configuration file for our image 
+<b>
 cat > jenkins-agent.json <<EOF
 {
   "builders": [
     {
       "type": "googlecompute",
       "project_id": "$PROJECT",
-      "source_image_family": "ubuntu-1604-lts",
+      "source_image_family": "ubuntu-1804-lts",
       "source_image_project_id": "ubuntu-os-cloud",
-      "zone": "us-central1-a",
+      "zone": "europe-west2-c",
       "disk_size": "10",
       "image_name": "jenkins-agent-{{timestamp}}",
       "image_family": "jenkins-agent",
@@ -98,11 +99,12 @@ cat > jenkins-agent.json <<EOF
     {
       "type": "shell",
       "inline": ["sudo apt-get update",
-                  "sudo apt-get install -y default-jdk"]
+                  "sudo apt-get install -y openjdk-8-jdk", "sudo apt-get install -y maven"]
     }
   ]
 }
 EOF
+ </b>
 Then Login with default credentials first before building and pushing image
 
 * gcloud auth application-default login
