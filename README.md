@@ -79,8 +79,7 @@ We need to create a disk image as template for our slave VM and minimum this ima
 * Find out the project name 
   * export PROJECT=$(gcloud info --format='value(config.project)')
 * Then run this to create a json configuration file for our image 
-<b>
-cat > jenkins-agent.json <<EOF
+`cat > jenkins-agent.json <<EOF
 {
   "builders": [
     {
@@ -103,8 +102,7 @@ cat > jenkins-agent.json <<EOF
     }
   ]
 }
-EOF
- </b>
+EOF`
 Then Login with default credentials first before building and pushing image
 
 * gcloud auth application-default login
