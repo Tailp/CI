@@ -59,11 +59,6 @@ If you can't find them, then they might be already installed( can find and check
 * curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 * sudo apt-get update && sudo apt-get install google-cloud-sdk
 
-Or alternatively, this may work better for some by installing gcloud this way
-
-* sudo apt-get install snapd
-* sudo snap install google-cloud-sdk --classic
-
 You can then setup your account with the command "gcloud init" then choose/create your project and also choose region(I chose 23 europe-west-2c, which is in London)
 
 ## Create a service account for Jenkins 
@@ -275,9 +270,9 @@ After the installation is done you can go ahead and visit [Gcloud registry](http
 ${projectname} is your ProjectID and it can be checked with "gcloud init" command in bash shell. ${registryreponame:version} can be whatever you think appropriate. For instance it can be "gcr.io/project-1234/appdeploy:v1"  . Do note that the dot at the end is not a typo(the syntax look almost the same as docker push). If the push is successful, you'll see it at [Gcloud registry](https://cloud.google.com/container-registry/) (you might need to switch project to the projectid you have pushed to).
 
 ## Jenkins declarative pipeline for auto pushing and deploy 
-To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which is usually located in /home/${user}/google-cloud-sdk/bin , otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
-
-* withEnv(['GCLOUD_PATH=/home/${user}/google-cloud-sdk/bin']) {....}
+To be able to run kubectl and gcloud shell command in Jenkinsfile for declarative pipeline, we need to authenticate itself before for instance running the command above for pushing to GCR . The easiest way to authenticate Jenkins outside the cluster is to use the service account .json file we got from the previous section for Jenkins to authenticate itself so that it can use kubectl and gcloud. There are 2 important things to find, first is the absolute path to the binary file gcloud, which can be found by the command below if you installed google-cloud-sdk according to instructions above, otherwise please look for the directory "google-cloud-sdk" and check its absolute path. There is a reason for thing to be tedious as this because the home directory for Jenkins is in /var/lib/jenkins by default, which is different than our own home directory, therefore it can't find the files meant for us to use. Second thing is the absolute path to the authentication .json file you created previously for service account. Now Jenkins is able to authenticate itself with these shell command below. Preferably it would look nicer with a variable defining the path
+* gcloud info --format="value(installation.sdk_root)"   //Find out GCLOUD_PATH, possibly looks like "/usr/lib/google-cloud-sdk"
+* withEnv(['GCLOUD_PATH=/usr/lib/google-cloud-sdk/bin']) {....}
 * in the {....} write "$GCLOUD_PATH/gcloud auth activate service-account --key-file=PATH_TO_JSONFILE"
 * then new line "$GCLOUD_PATH/gcloud container clusters get-credentials ${name_of_yourcluster} --zone ${your_zone} --project ${your_project_id}" 
 * new line again "$GCLOUD_PATH/gcloud config set project ${your_project_id}" 
