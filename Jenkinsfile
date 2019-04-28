@@ -38,8 +38,10 @@ pipeline {
                     sh '$GCLOUD_PATH/gcloud container clusters get-credentials ClusterName --zone europe-west2-c --project ProjectID'
                     sh '$GCLOUD_PATH/gcloud config set project ProjectID'
                     sh '$GCLOUD_PATH/gcloud builds submit --tag gcr.io/ProjectID/m-ci:latest .'
-                    sh '$GCLOUD_PATH/kubectl run mci --image=gcr.io/ProjectID/m-ci:latest --port 8080'
-                    sh '$GCLOUD_PATH/kubectl expose deployment mci --type=LoadBalancer --port 8000 --target-port 8000'
+                }
+                withEnv(['KUBECTL_PATH=/usr/bin']) {
+                    sh '$KUBECTL_PATH/kubectl run mci --image=gcr.io/ProjectID/m-ci:latest --port 8080'
+                    sh '$KUBECTL_PATH/kubectl expose deployment mci --type=LoadBalancer --port 8000 --target-port 8000'
                 }
             }
         }
@@ -52,9 +54,9 @@ pipeline {
         stage('Clean up') {
             agent{label 'master'}
             steps {
-                withEnv(['GCLOUD_PATH=/home/tailp/google-cloud-sdk/bin']) {
-                    sh '$GCLOUD_PATH/kubectl delete svc mci'
-                    sh '$GCLOUD_PATH/kubectl delete deployment mci'
+                withEnv(['KUBECTL_PATH=/home/tailp/google-cloud-sdk/bin']) {
+                    sh '$KUBECTL_PATH/kubectl delete svc mci'
+                    sh '$KUBECTL_PATH/kubectl delete deployment mci'
                 }
             }
             
